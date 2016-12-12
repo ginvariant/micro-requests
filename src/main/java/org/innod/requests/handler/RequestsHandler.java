@@ -21,7 +21,7 @@ public class RequestsHandler {
 		map.get(context.request().getParam("userid"), res -> {
 			// get the request status
 			// and push it to the client
-		});
+			});
 		context.response().setStatusCode(200).end();
 	}
 
@@ -31,7 +31,11 @@ public class RequestsHandler {
 		map.get(context.request().getParam("userid"), res -> {
 			// save the request status: mongo and shared?
 			// publish the request to the service providers
-		});
+			});
 		context.response().setStatusCode(200).end();
+	}
+
+	public void root(RoutingContext context) {
+		context.response().end("Welcome");
 	}
 }

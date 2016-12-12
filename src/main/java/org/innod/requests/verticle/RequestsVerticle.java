@@ -53,6 +53,8 @@ public class RequestsVerticle extends AbstractVerticle {
 		router.route().consumes("application/json");
 		router.route().produces("application/json");
 
+		 router.get("/").handler(handler::root);
+		 
 		router.get("/requests/:userid").handler(handler::get);
 
 		router.patch("/requests/:userid").handler(handler::patch);
