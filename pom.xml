@@ -121,6 +121,7 @@
 				<docker.image>${docker.group.name}/${project.artifactId}:${project.version}</docker.image>
 				<fabric8.dockerUser>vertx</fabric8.dockerUser>
 			</properties>
+			
 			<build>
 				<plugins>
 					<plugin>
