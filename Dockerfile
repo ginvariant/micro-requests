@@ -1,6 +1,6 @@
 FROM openjdk:8-jre-alpine
 
-ENV JAVA_APP_JAR requests-0.0.1-SNAPSHOT-fat.jar
+ENV JAVA_APP_JAR micro-requests-0.0.1-SNAPSHOT-fat.jar
 
 EXPOSE 8080
 

@@ -3,7 +3,7 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.innod</groupId>
-	<artifactId>requests</artifactId>
+	<artifactId>micro-requests</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>µrequests</name>
 	<description>µrequests</description>
@@ -35,6 +35,11 @@
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-hazelcast</artifactId>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -85,8 +90,7 @@
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<manifestEntries>
-										<Main-Class>io.vertx.core.Launcher</Main-Class>
-										<Main-Verticle>${main.verticle}</Main-Verticle>
+										<Main-Class>org.innod.requests.Requests</Main-Class>										
 									</manifestEntries>
 								</transformer>
 								<transformer
