@@ -1,12 +1,12 @@
-package org.innod.requests.verticles;
+package org.innod.rest.router.verticles;
+
+import org.innod.rest.router.handlers.RequestsHandler;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.ErrorHandler;
 import io.vertx.ext.web.handler.StaticHandler;
-
-import org.innod.requests.handlers.EventBusHandler;
-import org.innod.requests.routers.RequestsHttpRouter;
 
 public class RequestsVerticle extends AbstractVerticle {
 
@@ -14,9 +14,17 @@ public class RequestsVerticle extends AbstractVerticle {
 	public void start() {
 		Router router = Router.router(vertx);
 
-		router.route("/eventbus/*").handler(EventBusHandler.handler(vertx));
+		router.route().handler(BodyHandler.create());
 
-		router.mountSubRouter("/api", RequestsHttpRouter.router(vertx));
+		router.route().consumes("application/json");
+		router.route().produces("application/json");
+
+		RequestsHandler handler = new RequestsHandler(vertx);
+
+		// sanity check
+		router.get("/").handler(handler::root);
+		router.get("/requests/:userid").handler(handler::get);
+		router.patch("/requests/:userid").handler(handler::patch);
 
 		router.route().failureHandler(errorHandler());
 		router.route().handler(staticHandler());
