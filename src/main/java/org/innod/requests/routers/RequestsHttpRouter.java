@@ -8,26 +8,22 @@ import org.innod.requests.handlers.RequestsHandler;
 
 public class RequestsHttpRouter {
 
-	private static Router instance;
+	public static Router router(Vertx vertx) {
 
-	public static Router getInstance(Vertx vertx) {
-		if (instance == null) {
-			RequestsHandler handler = new RequestsHandler(vertx.sharedData());
+		RequestsHandler handler = new RequestsHandler(vertx.sharedData());
 
-			instance = Router.router(vertx);
+		Router router = Router.router(vertx);
 
-			instance.route().handler(BodyHandler.create());
+		router.route().handler(BodyHandler.create());
 
-			instance.route().consumes("application/json");
-			instance.route().produces("application/json");
+		router.route().consumes("application/json");
+		router.route().produces("application/json");
 
-			instance.get("/").handler(handler::root);
-			instance.get("/requests/:userid").handler(handler::get);
-			instance.patch("/requests/:userid").handler(handler::patch);
+		router.get("/").handler(handler::root);
+		router.get("/requests/:userid").handler(handler::get);
+		router.patch("/requests/:userid").handler(handler::patch);
 
-		}
-
-		return instance;
+		return router;
 	}
 
 }
