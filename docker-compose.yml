@@ -22,4 +22,6 @@ services:
      - "27018:27018"
     volumes:
      - /srv/docker/mongodb:/var/lib/mongodb
-    restart: always  
+    restart: always
+  kafka:
+    image:  spotify/kafka
