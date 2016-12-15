@@ -1,0 +1,25 @@
+version: '2'
+services:
+  push-server:
+    build: ./push-server
+    depends_on:
+     - mongo
+    ports:
+     - "8083:8083"
+    volumes:
+     - .:/code/push-server
+  rest-router:
+    build: ./rest-router
+    depends_on:
+     - mongo
+    ports:
+     - "8080:8080"
+    volumes:
+     - .:/code/rest-router
+  mongo:
+    image: mongo:3.0.4
+    ports:
+     - "27018:27018"
+    volumes:
+     - /srv/docker/mongodb:/var/lib/mongodb
+    restart: always  

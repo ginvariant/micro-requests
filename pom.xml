@@ -7,12 +7,13 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>µrequests</name>
 	<description>µrequests</description>
-<packaging>pom</packaging>
+	<packaging>pom</packaging>
 
 	<properties>
 		<slf4j-api.version>1.7.21</slf4j-api.version>
 		<lombok.version>1.16.12</lombok.version>
 		<vertx.version>3.0.0</vertx.version>
+		<docker.registry>docker.innod.com</docker.registry>
 	</properties>
 
 	<dependencyManagement>
@@ -36,10 +37,30 @@
 				<scope>provided</scope>
 			</dependency>
 		</dependencies>
-	</dependencyManagement>	
+	</dependencyManagement>
 
 	<modules>
 		<module>push-server</module>
 		<module>rest-router</module>
 	</modules>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.spotify</groupId>
+					<artifactId>docker-maven-plugin</artifactId>
+					<version>0.4.13</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.3</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>
