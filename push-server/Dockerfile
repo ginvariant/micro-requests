@@ -11,7 +11,7 @@ RUN chmod 777 /app/
 # add DOCKER_OPTS="-H tcp://127.0.0.1:2375 --dns x.x.x.x"
 
 RUN  apt-get update \
-  && apt-get install -y wget apt-utils \
+  && apt-get install -y wget apt-utils default-jdk \
   && rm -rf /var/lib/apt/lists/* \
   && wget https://github.com/jwilder/dockerize/releases/download/v0.3.0/dockerize-alpine-linux-amd64-v0.3.0.tar.gz \  
   && tar -C /usr/local/bin -xvzf dockerize-alpine-linux-amd64-v0.3.0.tar.gz
@@ -21,4 +21,4 @@ RUN  apt-get update \
 
 WORKDIR /app/
 
-CMD /usr/local/bin/dockerize -wait tcp://mongo:27017 java -jar $JAVA_APP_JAR
+CMD /usr/local/bin/dockerize -wait tcp://mongo:27017 /usr/bin/java -jar $JAVA_APP_JAR
