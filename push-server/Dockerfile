@@ -7,13 +7,18 @@ EXPOSE 8080
 ADD target/$JAVA_APP_JAR /app/
 RUN chmod 777 /app/
 
-RUN wget https://github.com/jwilder/dockerize/releases/download/v0.3.0/dockerize-alpine-linux-amd64-v0.3.0.tar.gz
-RUN tar -C /usr/local/bin -xvzf dockerize-linux-amd64-v0.0.1.tar.gz
+# if you have problems with the apt-get update
+# add DOCKER_OPTS="-H tcp://127.0.0.1:2375 --dns x.x.x.x"
 
-ADD dockerize /usr/local/bin/dockerize
+RUN  apt-get update \
+  && apt-get install -y wget apt-utils \
+  && rm -rf /var/lib/apt/lists/* \
+  && wget https://github.com/jwilder/dockerize/releases/download/v0.3.0/dockerize-alpine-linux-amd64-v0.3.0.tar.gz \  
+  && tar -C /usr/local/bin -xvzf dockerize-alpine-linux-amd64-v0.3.0.tar.gz
 
 # For when we have logs...
 # CMD dockerize -stdout /var/log/push-server/.log -stderr /var/log/push-server/error.log -wait tcp://mongo:27017 java -jar $JAVA_APP_JAR 
 
 WORKDIR /app/
-CMD dockerize -wait tcp://mongo:27017 java -jar $JAVA_APP_JAR
+
+CMD /usr/local/bin/dockerize -wait tcp://mongo:27017 java -jar $JAVA_APP_JAR

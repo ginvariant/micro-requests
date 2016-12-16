@@ -1,5 +1,13 @@
 version: '2'
 services:
+  
+  dnsdock:
+    image: aacebedo/dnsdock:v1.16.1-amd64
+    volumes:
+        - /var/run/docker.sock:/run/docker.sock
+    ports:
+        - 172.17.0.1:53:53/udp
+  
   push-server:
     build: ./push-server
     depends_on:
@@ -8,6 +16,11 @@ services:
      - "8083:8083"
     volumes:
      - .:/code/push-server
+    dns: 172.17.0.1
+    environment:
+     - DNSDOCK_NAME=push-server
+     - DNSDOCK_IMAGE=dnsdock
+       
   rest-router:
     build: ./rest-router
     depends_on:
@@ -16,6 +29,11 @@ services:
      - "8080:8080"
     volumes:
      - .:/code/rest-router
+    dns: 172.17.0.1
+    environment:
+     - DNSDOCK_NAME=rest-router
+     - DNSDOCK_IMAGE=dnsdock     
+     
   mongo:
     image: mongo:3.0.4
     ports:
@@ -23,5 +41,14 @@ services:
     volumes:
      - /srv/docker/mongodb:/var/lib/mongodb
     restart: always
+    dns: 172.17.0.1
+    environment:
+     - DNSDOCK_NAME=mongo
+     - DNSDOCK_IMAGE=dnsdock    
+     
   kafka:
     image:  spotify/kafka
+    dns: 172.17.0.1
+    environment:
+     - DNSDOCK_NAME=kafka
+     - DNSDOCK_IMAGE=dnsdock
